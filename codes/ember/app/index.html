@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+<meta charset=utf-8>
+<title>Ember Demo</title>
+
+<script type="text/x-handlebars" id="application">
+  <ul>
+    {{#each contact in model}}
+      <li>{{#link-to "contact" contact}} {{contact.fullName}} {{/link-to}}</li>
+    {{/each}}
+  </ul>
+  {{outlet}}
+</script>
+
+<script type="text/x-handlebars" id="index">
+  <p>Welcome to your address book!</p>
+</script>
+
+<script type="text/x-handlebars" id="contact">
+  <h1>{{fullName}}</h1>
+  <img {{bind-attr src="avatar"}} />
+  <br/>
+  {{#link-to "edit" this}}Edit{{/link-to}}
+</script>
+
+<script type="text/x-handlebars" id="edit">
+  <form {{action "save" on="submit"}}>
+    <label>First name: {{input value=copy.first}}</label><br/>
+    <label>Last name: {{input value=copy.last}}</label><br/>
+    <label>Avatar URL: {{input value=copy.avatar}}</label><br/>
+    <img {{bind-attr src=copy.avatar}}/><br/>
+    <button type="submit">Save</button>
+    {{#link-to "contact" this}}Cancel{{/link-to}}
+  </form>
+</script>
+
+<script src="vendor/jquery.js"></script>
+<script src="vendor/handlebars.js"></script>
+<script src="vendor/ember.js"></script>
+<script src="vendor/ember-data.js"></script>
+<script src="main.js"></script>
+

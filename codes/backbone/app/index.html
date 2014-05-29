@@ -1,0 +1,45 @@
+<!doctype html>
+<meta charset=utf-8>
+<title>Backbone Demo</title>
+<body>
+
+<div id="app"></div>
+
+<script type="text/ejs" template-name="app">
+  <div class="App">
+    <ul>
+    <% collection.forEach(function(contact) { %>
+      <li><a href="#/contact/<%= contact.id %>"><%= contact.fullName() %></a></li>
+    <% }) %>
+    </ul>
+    <div class="childView"></div>
+  </div>
+</script>
+
+<script type="text/ejs" template-name="index">
+  <p>Welcome to your address book</p>
+</script>
+
+<script type="text/ejs" template-name="contact">
+  <h1><%= model.fullName() %></h1>
+  <img src="<%= model.get('avatar') %>">
+  <br/>
+  <a href="#/edit/<%= model.get('id') %>">Edit</a>
+</script>
+
+<script type="text/ejs" template-name="edit">
+  <form>
+    <label>First name: <input name="first" type="text" value="<%= model.get('first') %>" /></label><br/>
+    <label>Last name: <input name="last" type="text" value="<%= model.get('last') %>" /></label><br/>
+    <label>Avatar URL: <input name="avatar" type="text" value="<%= model.get('avatar') %>" /></label><br/>
+    <img src="<%= model.get('avatar') %>"/><br/>
+    <button type="submit">Save</button>
+    <a href="#/contact/<%= model.get('id') %>">Cancel</a>
+  </form>
+</script>
+
+<script src="vendor/jquery.js"></script>
+<script src="vendor/underscore.js"></script>
+<script src="vendor/backbone.js"></script>
+<script src="main.js"></script>
+
