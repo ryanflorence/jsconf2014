@@ -1,0 +1,19 @@
+<polymer-element name="app-contact" attributes="foo" noscript>
+  <template>
+  <h1>{{contactid}} {{model.first}} {{model.last}}<h1>
+  </template>
+  <script>
+    Polymer('app-contact', {
+      model: {},
+      foo: 0,
+      ready: function() {
+        console.log(this.foo);
+        this.model.id = this.foo;
+        contactStore.find(this.model.id, function(err, contact) {
+          this.model = contact;
+        });
+      }
+    });
+  </script>
+</polymer-element>
+

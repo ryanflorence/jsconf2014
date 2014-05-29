@@ -1,0 +1,57 @@
+<polymer-element name="my-app" noscript>
+  <link rel="import" href="contact.html"/>
+  <template>
+    <ul>
+      <template repeat="{{contact in contacts}}">
+        <li>{{contact.first}} {{contact.last}}</li>
+      </template>
+    </ul>
+    <div hidden?="{{route !== 'index'}}">
+      <p>Welcome to your address book!</p>
+    </div>
+
+    <p>{{contactId}}</p>
+
+    <app-contact hidden?="{{route !== 'contact'}}" foo="{{contactId}}"></app-contact>
+
+    <div hidden?="{{route !== 'edit'}}">
+      <h1>EDIT!<h1>
+    </div>
+  </template>
+  <script>
+    Polymer('my-app', {
+      contacts: [],
+      route: 'index',
+      contactId: 0,
+
+      ready: function() {
+        this.getContacts();
+        this.setupRoutes();
+      },
+
+      setupRoutes: function() {
+        router.match(/\/contact\/(.+)\/?/, function(path, id) {
+          this.route = 'contact';
+          this.contactId = id;
+        }.bind(this));
+
+        router.match(/\/edit\/(.+)\/?/, function(path, id) {
+          this.route = 'edit';
+          this.contactId = id;
+        }.bind(this));
+
+        router.match('\/?', function() {
+          this.route = 'index';
+        });
+        router.start();
+      },
+
+      getContacts: function() {
+        contactStore.findAll(function(err, contacts) {
+          this.contacts = contacts;
+        }.bind(this));
+      }
+    });
+  </script>
+</polymer-element>
+
