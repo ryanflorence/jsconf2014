@@ -39,8 +39,8 @@ $('body').on('click', 'a:not([external])', function(event) {
 ////////////////////////////////////////////////////////////////////////////////
 // The app
 
-//var api = 'http://localhost:5000';
-var api = 'http://addressbook-api.herokuapp.com';
+var api = 'http://localhost:5000';
+//var api = 'http://addressbook-api.herokuapp.com';
 
 var Contact = Backbone.Model.extend({
   urlRoot: api+'/contacts',
@@ -83,15 +83,15 @@ var AppView = Backbone.View.extend({
     this.collection.on('remove', this.render, this);
   },
 
-  renderChildView: function(child) {
+  renderChildViews: function(child) {
     this.childView = child || this.childView;
     this.childView.setElement(this.$('.childView'));
     this.childView.render();
+    this.renderListItems();
   },
 
   afterRender: function() {
-    this.renderChildView();
-    this.renderListItems();
+    this.renderChildViews();
   },
 
   renderListItems: function() {
@@ -111,6 +111,11 @@ var ContactListItemView = Backbone.View.extend({
 
   initialize: function() {
     this.model.on('change', this.render, this);
+    this.className = '';
+    var match = location.hash.match(/contact\/(.+)/);
+    if (match && match[1] == this.model.get('id')) {
+      this.className = 'active';
+    }
   }
 });
 
@@ -178,7 +183,7 @@ var Router = Backbone.Router.extend({
     if (!this.appView) {
       this.app({childView: view});
     } else {
-      this.appView.renderChildView(view);
+      this.appView.renderChildViews(view);
     }
   }
 });

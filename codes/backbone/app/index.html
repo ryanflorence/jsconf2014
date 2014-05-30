@@ -14,7 +14,7 @@
 </script>
 
 <script type="text/ejs" template-name="contact-list-item">
-  <li><a href="#/contact/<%= model.id %>"><%= model.fullName() %></a></li>
+  <li><a class="<%= className %>" href="#/contact/<%= model.id %>"><%= model.fullName() %></a></li>
 </script>
 
 <script type="text/ejs" template-name="index">

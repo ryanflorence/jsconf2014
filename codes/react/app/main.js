@@ -141,17 +141,20 @@ var App = React.createClass({
   links: function() {
     return this.state.contacts.map(function(contact) {
       var href = '#/contact/'+contact.id;
-      return <li><a href={href}>{contact.first} {contact.last}</a></li>;
-    });
+      var className = this.props.contactId === contact.id ? 'active' : '';
+      return <li><a className={className} href={href}>{contact.first} {contact.last}</a></li>;
+    }.bind(this));
   },
 
   render: function() {
     return (
       <div className="App">
-        <ul>
+        <ul className="Master">
           {this.links()}
         </ul>
-        {this.child()}
+        <div className="Detail">
+          {this.child()}
+        </div>
       </div>
     );
   }
