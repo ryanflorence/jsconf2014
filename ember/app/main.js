@@ -1,7 +1,7 @@
 var App = Ember.Application.create();
 
 App.ApplicationAdapter = DS.RESTAdapter.extend({
-  host: 'http://localhost:5000'
+  host: 'http://addressbook-api.herokuapp.com'
 });
 
 App.Contact = DS.Model.extend({

@@ -39,8 +39,7 @@ $('body').on('click', 'a:not([external])', function(event) {
 ////////////////////////////////////////////////////////////////////////////////
 // The app
 
-var api = 'http://localhost:5000';
-//var api = 'http://addressbook-api.herokuapp.com';
+var api = 'http://addressbook-api.herokuapp.com';
 
 var Contact = Backbone.Model.extend({
   urlRoot: api+'/contacts',

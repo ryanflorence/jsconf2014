@@ -17,7 +17,7 @@ app.config(function($routeProvider) {
 });
 
 app.factory('Contacts', function($resource) {
-  return $resource('http://localhost:5000/contacts/:id', {id: '@id'}, {
+  return $resource('http://addressbook-api.herokuapp.com/contacts/:id', {id: '@id'}, {
     query: {
       isArray: true,
       transformResponse: function(res) {

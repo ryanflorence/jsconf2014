@@ -43,7 +43,7 @@ var router = {
   }
 };
 
-var api = 'http://localhost:5000';
+var api = 'http://addressbook-api.herokuapp.com';
 
 var contactStore = {
   cache: {
