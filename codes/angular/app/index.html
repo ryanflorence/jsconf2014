@@ -8,13 +8,11 @@
 <script src="../bower_components/angular-resource/angular-resource.js"></script>
 
 <div class="App">
-
   <ul class="Master" ng-controller="MasterCtrl">
     <li ng-repeat="contact in contacts">
       <a ng-class="{active:activeId == contact.id}" ng-href="#/contact/{{contact.id}}">{{contact.first}} {{contact.last}}</a>
     </li>
   </ul>
-
   <div class="Detail" ng-view></div>
 </div>
 
