@@ -1,9 +1,22 @@
 <!doctype html>
-<html ng-app="address-book">
+<html ng-app="app">
 <meta charset=utf-8>
 <title>Angular Demo</title>
-<div ng-view></div>
+<link rel="stylesheet" href="../../app.css"/>
+<script src="../bower_components/angular/angular.js"></script>
+<script src="../bower_components/angular-route/angular-route.js"></script>
+<script src="../bower_components/angular-resource/angular-resource.js"></script>
 
-<script src="vendor/angular.js"></script>
+<div class="App">
+
+  <ul class="Master" ng-controller="MasterCtrl">
+    <li ng-repeat="contact in contacts">
+      <a ng-class="{active:activeId == contact.id}" ng-href="#/contact/{{contact.id}}">{{contact.first}} {{contact.last}}</a>
+    </li>
+  </ul>
+
+  <div class="Detail" ng-view></div>
+</div>
+
 <script src="main.js"></script>
 

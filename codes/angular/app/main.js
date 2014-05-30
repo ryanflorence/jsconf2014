@@ -1,18 +1,67 @@
-angular.module('address-book.main', ['ngRoute']);
+var app = angular.module('app', ['ngRoute', 'ngResource']);
 
-angular.module('address-book.main').config(function($routeProvider) {
-
+app.config(function($routeProvider) {
   $routeProvider.when('/', {
-    controller: 'AppCtrl',
-    templateUrl: '/templates/app.html'
+    templateUrl: 'index-template.html'
   });
 
   $routeProvider.when('/contact/:id', {
-    controller: '',
-    templateUrl: '/templates/contact.html'
+    templateUrl: 'contact-template.html',
+    controller: 'ContactCtrl'
   });
 
+  $routeProvider.when('/edit/:id', {
+    templateUrl: 'edit-template.html',
+    controller: 'EditCtrl'
+  });
 });
 
-angular.module('address-book', ['address-book.main']);
+app.factory('Contacts', function($resource) {
+  return $resource('http://localhost:5000/contacts/:id', {id: '@id'}, {
+    query: {
+      isArray: true,
+      transformResponse: function(res) {
+        return angular.fromJson(res).contacts;
+      }
+    },
+    get: {
+      transformResponse: function(res) {
+        return angular.fromJson(res).contact;
+      }
+    },
+    update: {
+      method:'PUT',
+      transformRequest: function(data) {
+        return angular.toJson({contact: data});
+      }
+    }
+  });
+});
+
+app.controller('MasterCtrl', function($routeParams, $scope, Contacts) {
+  $scope.contacts = Contacts.query();
+  $scope.$on('$routeChangeSuccess', function() {
+     $scope.activeId = $routeParams.id;
+  });
+});
+
+app.controller('ContactCtrl', function($scope, $routeParams, Contacts) {
+  $scope.contact = Contacts.get({id: $routeParams.id});
+});
+
+app.controller('EditCtrl', function($timeout, $location, $scope, $routeParams, Contacts) {
+  var contact = $scope.contact = Contacts.get({id: $routeParams.id}, function() {
+    $scope.copy = {
+      first: contact.first,
+      last: contact.last,
+      avatar: contact.avatar
+    }
+  });
+
+  $scope.save = function() {
+    Contacts.update({id: $scope.contact.id}, $scope.copy, function() {
+      $location.path('contact/'+$scope.contact.id);
+    });
+  };
+});
 

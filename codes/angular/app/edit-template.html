@@ -1,0 +1,9 @@
+<form ng-submit="save()">
+  <label>First name: <input ng-model="copy.first"/></label><br/>
+  <label>Last name: <input ng-model="copy.last"/></label><br/>
+  <label>Avatar URL: <input ng-model="copy.avatar"/></label><br/>
+  <img src="{{copy.avatar}}"/><br/>
+  <button type="submit">Save</button>
+  <a ng-href="#/contact/{{contact.id}}">Cancel</a>
+</form>
+
