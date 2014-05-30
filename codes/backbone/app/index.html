@@ -1,19 +1,20 @@
 <!doctype html>
 <meta charset=utf-8>
 <title>Backbone Demo</title>
+<link rel="stylesheet" href="../../app.css"/>
 <body>
 
 <div id="app"></div>
 
 <script type="text/ejs" template-name="app">
   <div class="App">
-    <ul>
-    <% collection.forEach(function(contact) { %>
-      <li><a href="#/contact/<%= contact.id %>"><%= contact.fullName() %></a></li>
-    <% }) %>
-    </ul>
-    <div class="childView"></div>
+    <ul class="Master items"></ul>
+    <div class="Detail childView"></div>
   </div>
+</script>
+
+<script type="text/ejs" template-name="contact-list-item">
+  <li><a href="#/contact/<%= model.id %>"><%= model.fullName() %></a></li>
 </script>
 
 <script type="text/ejs" template-name="index">

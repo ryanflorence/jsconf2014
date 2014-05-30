@@ -1,0 +1,40 @@
+<polymer-element name="app-edit" attributes="contactid" noscript>
+  <template>
+    <link rel="stylesheet" href="../../app.css"/>
+    <form on-submit="{{save}}">
+      <label>First name: <input value="{{copy.first}}"/></label><br/>
+      <label>Last name: <input value="{{copy.last}}"/></label><br/>
+      <label>Avatar URL: <input value="{{copy.avatar}}"/></label><br/>
+      <img src={{copy.avatar}}/><br/>
+      <button type="submit">Save</button>
+      <a href="#/contact/{{model.id}}">Cancel</a>
+    </form>
+
+  </template>
+
+  <script>
+    Polymer('app-edit', {
+      model: {},
+
+      copy: {},
+
+      contactid: 0,
+
+      save: function(event) {
+        event.preventDefault();
+        contactStore.update(this.copy.id, this.copy);
+        window.location.href = "#/contact/"+this.model.id;
+      },
+
+      contactidChanged: function() {
+        contactStore.find(this.contactid, function(err, contact) {
+          this.model = contact;
+          for (prop in contact) {
+            this.copy[prop] = contact[prop]
+          }
+        }.bind(this));
+      }
+    });
+  </script>
+</polymer-element>
+

@@ -39,7 +39,8 @@ $('body').on('click', 'a:not([external])', function(event) {
 ////////////////////////////////////////////////////////////////////////////////
 // The app
 
-var api = 'http://localhost:5000';
+//var api = 'http://localhost:5000';
+var api = 'http://addressbook-api.herokuapp.com';
 
 var Contact = Backbone.Model.extend({
   urlRoot: api+'/contacts',
@@ -53,6 +54,10 @@ var Contact = Backbone.Model.extend({
 
   fullName: function() {
     return this.get('first') + ' ' + this.get('last');
+  },
+
+  toJSON: function() {
+    return {contact: this.attributes};
   }
 });
 
@@ -86,26 +91,31 @@ var AppView = Backbone.View.extend({
 
   afterRender: function() {
     this.renderChildView();
+    this.renderListItems();
+  },
+
+  renderListItems: function() {
+    var list = this.$('.items');
+    list.empty();
+    this.collection.each(function(contact) {
+      var view = new ContactListItemView({model: contact});
+      view.render();
+      view.$el.appendTo(list);
+    });
   }
 
 });
 
-var ContactView = Backbone.View.extend({
-  templateName: 'contact',
-
-  events: {
-    'input input[bind]': 'updateAttribute'
-  },
+var ContactListItemView = Backbone.View.extend({
+  templateName: 'contact-list-item',
 
   initialize: function() {
     this.model.on('change', this.render, this);
-  },
-
-  updateAttribute: function(event) {
-    var el = event.target;
-    var name = el.getAttribute('bind');
-    this.model.set(name, el.value);
   }
+});
+
+var ContactView = Backbone.View.extend({
+  templateName: 'contact',
 });
 
 var EditView = Backbone.View.extend({
@@ -122,7 +132,7 @@ var EditView = Backbone.View.extend({
       props[pair.name] = pair.value;
       return props;
     }, {});
-    this.model.set(props);
+    this.model.save(props);
     Backbone.history.navigate('/contact/'+this.model.get('id'), {trigger: true});
   },
 
@@ -156,7 +166,7 @@ var Router = Backbone.Router.extend({
 
   contact: function(id) {
     var model = this.contacts.findModel(id);
-    this.renderDetail(new ContactView({ model: model }));
+    this.renderDetail(new ContactView({model: model}));
   },
 
   edit: function(id) {

@@ -1,28 +1,32 @@
 <polymer-element name="my-app" noscript>
+
   <link rel="import" href="contact.html"/>
+  <link rel="import" href="edit.html"/>
+
   <template>
-    <ul>
+    <link rel="stylesheet" href="../../app.css"/>
+    <ul class="Master">
       <template repeat="{{contact in contacts}}">
-        <li>{{contact.first}} {{contact.last}}</li>
+        <li><a href="#/contact/{{contact.id}}">{{contact.first}} {{contact.last}}</a></li>
       </template>
     </ul>
-    <div hidden?="{{route !== 'index'}}">
-      <p>Welcome to your address book!</p>
-    </div>
 
-    <p>{{contactId}}</p>
-
-    <app-contact hidden?="{{route !== 'contact'}}" foo="{{contactId}}"></app-contact>
-
-    <div hidden?="{{route !== 'edit'}}">
-      <h1>EDIT!<h1>
+    <div class="Detail">
+      <div hidden?="{{route !== 'index'}}">
+        <p>Welcome to your address book!</p>
+      </div>
+      <app-contact hidden?="{{route !== 'contact'}}" contactid="{{contactId}}"></app-contact>
+      <app-edit hidden?="{{route !== 'edit'}}" contactid="{{contactId}}"></app-contact>
     </div>
   </template>
+
   <script>
     Polymer('my-app', {
       contacts: [],
+
       route: 'index',
-      contactId: 0,
+
+      contactId: null,
 
       ready: function() {
         this.getContacts();

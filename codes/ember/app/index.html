@@ -2,14 +2,19 @@
 <html>
 <meta charset=utf-8>
 <title>Ember Demo</title>
+<link rel="stylesheet" href="../../app.css"/>
 
 <script type="text/x-handlebars" id="application">
-  <ul>
-    {{#each contact in model}}
-      <li>{{#link-to "contact" contact}} {{contact.fullName}} {{/link-to}}</li>
-    {{/each}}
-  </ul>
-  {{outlet}}
+  <div class="App">
+    <ul class="Master">
+      {{#each contact in model}}
+        <li>{{#link-to "contact" contact}} {{contact.fullName}} {{/link-to}}</li>
+      {{/each}}
+    </ul>
+    <div class="Detail">
+      {{outlet}}
+    </div>
+  </div>
 </script>
 
 <script type="text/x-handlebars" id="index">

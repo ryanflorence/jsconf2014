@@ -1,17 +1,23 @@
-<polymer-element name="app-contact" attributes="foo" noscript>
+<polymer-element name="app-contact" attributes="contactid" noscript>
   <template>
-  <h1>{{contactid}} {{model.first}} {{model.last}}<h1>
+    <link rel="stylesheet" href="../../app.css"/>
+    <h1>{{model.first}} {{model.last}}</h1>
+    <img src={{model.avatar}}/>
+    <br/>
+    <a href="#/edit/{{model.id}}">Edit</a>
   </template>
+
   <script>
     Polymer('app-contact', {
       model: {},
-      foo: 0,
-      ready: function() {
-        console.log(this.foo);
-        this.model.id = this.foo;
-        contactStore.find(this.model.id, function(err, contact) {
+
+      contactid: null,
+
+      contactidChanged: function() {
+        if (!this.contactid) return;
+        contactStore.find(this.contactid, function(err, contact) {
           this.model = contact;
-        });
+        }.bind(this));
       }
     });
   </script>

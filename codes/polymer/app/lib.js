@@ -26,7 +26,6 @@ var router = {
 
   handleRoute: function() {
     var path = window.location.hash.substr(1);
-    console.log(path);
     for (var i = 0, l = this.routes.length; i < l; i ++) {
       var route = this.routes[i];
       var match = path.match(route.matcher);
@@ -38,7 +37,8 @@ var router = {
   }
 };
 
-var api = 'http://localhost:5000';
+//var api = 'http://localhost:5000';
+var api = 'http://addressbook-api.herokuapp.com';
 
 var contactStore = {
   cache: {
@@ -55,7 +55,6 @@ var contactStore = {
       return cb(null, cache.map[id]);
     }
     req('GET', api+'/contacts/'+id, null, function(err, res) {
-      console.log('find');
       if (err) return cb(err);
       var record = cache.map[res.contact.id] || res.contact;
       if (cache.map[record.id]) {
@@ -77,7 +76,6 @@ var contactStore = {
       return cb && cb(null, cache.records);
     }
     req('GET', api+'/contacts', null, function(err, res) {
-      console.log('findAll');
       if (err) return cb(err);
       cache.loaded = true;
       cache.records = res.contacts;
