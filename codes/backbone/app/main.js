@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-// My flavor of Backbone
+// Stuff I had to add
 
 Backbone.View.prototype.render = function() {
   var template = document.querySelector('[template-name="'+this.templateName+'"]').innerHTML;
@@ -159,7 +159,6 @@ var Router = Backbone.Router.extend({
 
   app: function(options) {
     options = options || {};
-    if (this.appView) this.appView.remove();
     this.appView = new AppView({
       el: '#app',
       collection: this.contacts,

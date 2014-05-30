@@ -1,5 +1,8 @@
 /** @jsx React.DOM */
 
+////////////////////////////////////////////////////////////////////////////////
+// Stuff I had to add
+
 function req(method, url, data, cb) {
   var req = new XMLHttpRequest();
   req.onload = function() {
@@ -39,9 +42,6 @@ var router = {
     }
   }
 };
-
-////////////////////////////////////////////////////////////////////////////////
-// App
 
 var api = 'http://localhost:5000';
 
@@ -109,6 +109,9 @@ var contactStore = {
     }.bind(this));
   }
 };
+
+////////////////////////////////////////////////////////////////////////////////
+// App
 
 var App = React.createClass({
 

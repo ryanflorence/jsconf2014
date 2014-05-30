@@ -38,8 +38,11 @@ app.factory('Contacts', function($resource) {
   });
 });
 
-app.controller('MasterCtrl', function($routeParams, $scope, Contacts) {
+app.controller('MasterCtrl', function($rootScope, $routeParams, $scope, Contacts) {
   $scope.contacts = Contacts.query();
+  $rootScope.$on('contactEdit', function() {
+    $scope.contacts = Contacts.query();
+  });
   $scope.$on('$routeChangeSuccess', function() {
      $scope.activeId = $routeParams.id;
   });
@@ -49,7 +52,7 @@ app.controller('ContactCtrl', function($scope, $routeParams, Contacts) {
   $scope.contact = Contacts.get({id: $routeParams.id});
 });
 
-app.controller('EditCtrl', function($timeout, $location, $scope, $routeParams, Contacts) {
+app.controller('EditCtrl', function($rootScope, $timeout, $location, $scope, $routeParams, Contacts) {
   var contact = $scope.contact = Contacts.get({id: $routeParams.id}, function() {
     $scope.copy = {
       first: contact.first,
@@ -61,6 +64,7 @@ app.controller('EditCtrl', function($timeout, $location, $scope, $routeParams, C
   $scope.save = function() {
     Contacts.update({id: $scope.contact.id}, $scope.copy, function() {
       $location.path('contact/'+$scope.contact.id);
+      $rootScope.$emit('contactEdit');
     });
   };
 });
