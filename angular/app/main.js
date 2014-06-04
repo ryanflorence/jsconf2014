@@ -1,19 +1,18 @@
 var app = angular.module('app', ['ngRoute', 'ngResource']);
 
 app.config(function($routeProvider) {
-  $routeProvider.when('/', {
-    templateUrl: 'index-template.html'
-  });
-
-  $routeProvider.when('/contact/:id', {
-    templateUrl: 'contact-template.html',
-    controller: 'ContactCtrl'
-  });
-
-  $routeProvider.when('/edit/:id', {
-    templateUrl: 'edit-template.html',
-    controller: 'EditCtrl'
-  });
+  $routeProvider
+    .when('/', {
+      templateUrl: 'index-template.html'
+    })
+    .when('/contact/:id', {
+      templateUrl: 'contact-template.html',
+      controller: 'ContactCtrl'
+    })
+    .when('/edit/:id', {
+      templateUrl: 'edit-template.html',
+      controller: 'EditCtrl'
+    });
 });
 
 app.factory('Contacts', function($resource) {
