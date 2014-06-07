@@ -1,30 +1,31 @@
 var app = angular.module('app', ['ngRoute', 'ngResource']);
 
 app.config(function($routeProvider) {
-  $routeProvider.when('/', {
-    templateUrl: 'index-template.html'
-  });
-
-  $routeProvider.when('/contact/:id', {
-    templateUrl: 'contact-template.html',
-    controller: 'ContactCtrl'
-  });
-
-  $routeProvider.when('/edit/:id', {
-    templateUrl: 'edit-template.html',
-    controller: 'EditCtrl'
-  });
+  $routeProvider
+    .when('/', {
+      templateUrl: 'index-template.html'
+    })
+    .when('/contact/:id', {
+      templateUrl: 'contact-template.html',
+      controller: 'ContactCtrl'
+    })
+    .when('/edit/:id', {
+      templateUrl: 'edit-template.html',
+      controller: 'EditCtrl'
+    });
 });
 
 app.factory('Contacts', function($resource) {
   return $resource('http://addressbook-api.herokuapp.com/contacts/:id', {id: '@id'}, {
     query: {
       isArray: true,
+      method:'GET',
       transformResponse: function(res) {
         return angular.fromJson(res).contacts;
       }
     },
     get: {
+      method:'GET',
       transformResponse: function(res) {
         return angular.fromJson(res).contact;
       }
@@ -68,4 +69,3 @@ app.controller('EditCtrl', function($rootScope, $timeout, $location, $scope, $ro
     });
   };
 });
-
